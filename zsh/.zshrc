@@ -1,7 +1,9 @@
 export ZSH="$HOME/.oh-my-zsh"
 
-#export PATH="/home/lenovo/.fzf/bin:$PATH"
-export PATH="$HOME/.local/bin:$PATH"
+#export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.local/kitty.app/bin:$HOME/.local/bin:$PATH"
+
+export PATH=/home/lenovo/.fzf/bin:$PATH
 
 ZSH_THEME="amuse"
 
@@ -44,8 +46,19 @@ alias gch-="git checkout -b $1"
 alias gch="git checkout $1"
 alias python=/usr/bin/python3
 alias n="nvim"
+alias rms="rm ~/.local/share/nvim/sessions/*"
+alias ai="ollama run llama3.2"
+alias bat="batcat"
+
+
+#update kitty
+alias kittyupdate='curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin'
+
 
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+# for zoxide
+eval "$(zoxide init zsh)"
 
 # for go lang
 export PATH=$PATH:/usr/local/go/bin
@@ -57,3 +70,19 @@ bindkey -v
 
 # Load fzf key bindings and auto-completion
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+
+# Generated for envman. Do not edit.
+[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
+
+
+# Yazi config
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		builtin cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}
+
