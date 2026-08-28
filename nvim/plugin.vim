@@ -1,0 +1,225 @@
+"            __            _             _
+"     ____  / /_  ______ _(_)___  _   __(_)___ ___
+"    / __ \/ / / / / __ `/ / __ \| | / / / __ `__ \
+"   / /_/ / / /_/ / /_/ / / / / /| |/ / / / / / / /
+"  / .___/_/\__,_/\__, /_/_/ /_(_)___/_/_/ /_/ /_/
+" /_/            /____/
+"
+"              PLUGIN CONFIGURATIONS
+"               powered by vim-plug
+"
+call plug#begin('~/.config/nvim/plugged')
+
+   Plug 'prabirshrestha/vim-lsp'
+   Plug 'prabirshrestha/asyncomplete.vim'
+   Plug 'mattn/vim-lsp-settings'
+   Plug 'prabirshrestha/asyncomplete-lsp.vim'
+
+   Plug 'mattn/emmet-vim' " for html
+
+   Plug 'airblade/vim-gitgutter' "help for show the changes in git branch in file
+   Plug 'f-person/git-blame.nvim'
+   Plug 'tpope/vim-fugitive'
+   Plug 'akinsho/git-conflict.nvim', {'tag': '*'}
+   " commands
+   " co — choose ours
+   " ct — choose theirs
+   " cb — choose both
+   " c0 — choose none
+   " ]x — move to previous conflict
+   " [x — move to next conflict
+
+   Plug 'itchyny/vim-highlighturl'
+   Plug 'isobit/vim-caddyfile'
+
+   " nerdtree buddies
+   Plug 'preservim/nerdtree'
+   Plug 'Xuyuanp/nerdtree-git-plugin'
+   Plug 'ryanoasis/vim-devicons'
+   Plug 'PhilRunninger/nerdtree-visual-selection'
+   " below shortcuts are for above plugin 
+   " NERDTreeMapActivateNode o	Open selected files.
+   " NERDTreeMapOpenSplit	 i	Open selected files in horizontal splits.
+   " NERDTreeMapOpenVSplit	 s	Open selected files in vertical splits.
+   " NERDTreeMapOpenInTab	 t	Open selected files in tabs.
+   " implement below shortcuts 
+   " gt → go to next tab            :tabn → go to next tab
+   " gT → go to previous tab        :tabn → go to next tab
+
+   Plug 'honza/vim-snippets'      "A collection of snippets
+   Plug 'mhinz/vim-startify'   "A really handy start page with lots of customizations.
+   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+   Plug 'junegunn/fzf.vim'
+   Plug 'jiangmiao/auto-pairs'
+   Plug 'Exafunction/windsurf.vim', { 'branch': 'main' }
+   Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+   Plug 'morhetz/gruvbox'  "for theme
+   Plug 'Pocco81/auto-save.nvim'
+   Plug 'itchyny/lightline.vim'
+   Plug 'mengelbrecht/lightline-bufferline'
+   Plug 'unblevable/quick-scope'  "for move left and right in line quickly
+   Plug 'rmagatti/auto-session'
+   Plug 'gelguy/wilder.nvim'  " down menu popup autocomplet suggestion
+   Plug 'mason-org/mason.nvim'
+
+   Plug 'puremourning/vimspector'
+
+call plug#end()
+
+let g:lsp_diagnostics_echo_cursor = 0
+let g:lsp_diagnostics_float_cursor = 1
+
+"Default keys for wilder
+call wilder#setup({'modes': [':', '/', '?']})
+
+"this is for lightline (upper tab like vscode i don't want this that's why it
+"is commented)
+"" statusline (itchyny/lightline.vim, mengelbrecht/lightline-bufferline)
+"set showtabline=2
+"let g:lightline = {
+"\   'colorscheme': 'gruvbox',
+"\   'active': {
+"\       'left': [['mode', 'paste'],
+"\                ['gitbranch', 'readonly', 'filepath', 'modified']],
+"\   },
+"\   'tabline': {
+"\       'left': [['buffers']],
+"\       'right': [['close']],
+"\   },
+"\   'component_expand': {
+"\       'buffers': 'lightline#bufferline#buffers',
+"\   },
+"\   'component_type': {
+"\       'buffers': 'tabsel'
+"\   },
+"\   'component_function': {
+"\       'filepath': 'RelativeFilePath',
+"\       'gitbranch': 'FugitiveHead',
+"\   },
+"\   'bufferline': {
+"\       'show_number': 0,
+"\       'shorten_path': 0,
+"\       'filename_modifier': ':t',
+"\   },
+"\ }
+
+" this for quick-scope
+" Trigger a highlight in the appropriate direction when pressing these keys:
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+
+" Trigger a highlight only when pressing f and F.
+let g:qs_highlight_on_keys = ['f', 'F']
+highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
+highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
+augroup qs_colors
+ autocmd!
+ autocmd ColorScheme * highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
+ autocmd ColorScheme * highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
+augroup END
+
+"emmet (mattn/emmet-vim)
+let g:user_emmet_leader_key=','
+
+"-------------------- gitgutter ---------------
+"set priority as 0
+let g:gitgutter_sign_priority = 0
+
+"-------------------- vim-lsp ---------------
+"for python
+"if executable('pyright')
+    "" pip install pyright 
+    "au User lsp_setup call lsp#register_server({
+        "\ 'name': 'pyright',
+        "\ 'cmd': {server_info->['pyright']},
+        "\ 'allowlist': ['python'],
+        "\ })
+"endif
+
+"for golang 
+if executable('gopls')
+    " Install gopls: go install golang.org/x/tools/gopls@latest
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'gopls',
+        \ 'cmd': {server_info->['gopls']},
+        \ 'allowlist': ['go'],
+        \ })
+endif
+
+" TypeScript / JavaScript LSP
+if executable('typescript-language-server')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'typescript-language-server',
+        \ 'cmd': {server_info->['typescript-language-server', '--stdio']},
+        \ 'allowlist': ['javascript', 'javascriptreact', 'typescript', 'typescriptreact'],
+        \ })
+endif
+
+let g:lsp_document_code_action_signs_enabled = 0
+let g:lsp_fold_enabled = 0
+
+function! s:on_lsp_buffer_enabled() abort
+    setlocal omnifunc=lsp#complete
+    setlocal signcolumn=yes
+    if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+
+    nmap <buffer> <leader>rn <plug>(lsp-rename)
+    nmap <buffer> K <plug>(lsp-hover)
+    nmap <buffer> gd <plug>(lsp-definition)
+    nmap <buffer> gs <plug>(lsp-document-symbol-search)
+    nmap <buffer> gr <plug>(lsp-references)
+    nmap <buffer> gi <plug>(lsp-implementation)
+    nmap <buffer> gt <plug>(lsp-type-definition)
+
+    nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
+    nmap <buffer> <leader>rn <plug>(lsp-rename)
+    nmap <buffer> [g <plug>(lsp-previous-diagnostic)
+    nmap <buffer> ]g <plug>(lsp-next-diagnostic)
+
+    let g:lsp_format_sync_timeout = 1000
+
+    " 🔥 Diagnostic colors
+    highlight LspErrorText guifg=#ff5f5f ctermfg=Red
+    highlight LspWarningText guifg=#ffaf00 ctermfg=Yellow
+    highlight LspInformationText guifg=#5fd7ff ctermfg=Cyan
+    highlight LspHintText guifg=#5fff5f ctermfg=Green
+
+    " Optional: for virtual text
+    highlight LspErrorVirtualText guifg=#ff5f5f ctermfg=Red
+    highlight LspWarningVirtualText guifg=#ffaf00 ctermfg=Yellow
+    highlight LspInformationVirtualText guifg=#5fd7ff ctermfg=Cyan
+    highlight LspHintVirtualText guifg=#5fff5f ctermfg=Green
+
+endfunction
+
+highlight lspReference ctermfg=red guifg=red ctermbg=green guibg=green
+
+augroup lsp_install
+    au!
+    " call s:on_lsp_buffer_enabled only for languages that has the server registered.
+    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
+
+
+autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+
+let g:lsp_log_file = '/tmp/lsp.log'
+
+" lsp-settings
+let g:lsp_settings_filasyncomplete_auto_popupetype_vue = ['typescript-language-server', 'volar-server']
+
+" auto-session
+lua require('auto-session').setup {}
+
+" git conflict configuration
+lua << EOF
+require('git-conflict').setup({
+  default_mappings = true, -- Enable default buffer local mappings created by this plugin
+  default_commands = true, -- Enable commands created by this plugin
+  disable_diagnostics = false, -- This will keep diagnostics enabled in a conflicted buffer
+  list_opener = 'copen', -- Command or function to open the conflicts list
+  highlights = { -- They must have background color, otherwise the default color will be used
+    incoming = 'DiffAdd',
+    current = 'DiffText',
+  }
+})
+EOF
