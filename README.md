@@ -1,17 +1,29 @@
 # Dotfiles
 
-My personal dotfiles for my development environment.
+My personal dotfiles for my Linux development environment.
 
 ## Configurations
 
+* **Sway** — Window manager
+* **Waybar** — Status bar
+* **Wofi** — Application launcher
 * **Kitty** — Terminal emulator
 * **Zsh** — Shell
-* **Neovim** — Text editor configured using Vimscript
+* **Neovim** — Text editor
 
 ## Structure
 
-```
+```text
 dotfiles/
+├── .config/
+│   ├── sway/
+│   │   └── config
+│   ├── waybar/
+│   │   ├── config
+│   │   └── style.css
+│   └── wofi/
+│       ├── config
+│       └── style.css
 ├── kitty/
 │   └── kitty.conf
 ├── zsh/
@@ -22,35 +34,79 @@ dotfiles/
     └── plugin.vim
 ```
 
+## Packages
+
+```bash
+sudo apt update
+
+sudo apt install -y \
+    sway \
+    swaybg \
+    swaylock \
+    waybar \
+    wofi \
+    kitty \
+    brightnessctl \
+    pulseaudio-utils \
+    zsh \
+    neovim \
+    wev
+```
+
 ## Setup
 
-Clone the repository:
+Clone:
 
-```
-git clone https://github.com/Atulkumar112/dotfiles.git
+```bash
+git clone git@github-personal:Atulkumar112/dotfiles.git
 cd dotfiles
+```
+
+Create config directory:
+
+```bash
+mkdir -p ~/.config
+```
+
+### Sway
+
+```bash
+ln -s ~/dotfiles/.config/sway ~/.config/sway
+```
+
+### Waybar
+
+```bash
+ln -s ~/dotfiles/.config/waybar ~/.config/waybar
+```
+
+### Wofi
+
+```bash
+ln -s ~/dotfiles/.config/wofi ~/.config/wofi
 ```
 
 ### Kitty
 
-```
-ln -s ~/dotfiles/kitty/kitty.conf ~/.config/kitty/kitty.conf
+```bash
+ln -s ~/dotfiles/kitty ~/.config/kitty
 ```
 
 ### Zsh
 
-```
+```bash
 ln -s ~/dotfiles/zsh/.zshrc ~/.zshrc
 ```
 
 ### Neovim
 
-```
+```bash
 ln -s ~/dotfiles/nvim ~/.config/nvim
 ```
 
-## Note
+## Notes
 
 These are my personal configurations and may require some changes depending on your system.
-
-Feel free to use, modify, and customize them.
+* Sway uses **Kitty** as the terminal.
+* Personal GitHub repositories use the `github-personal` SSH alias.
+* Do not commit secrets or machine-specific files.
