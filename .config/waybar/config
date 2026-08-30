@@ -16,6 +16,7 @@
         "pulseaudio",
         "battery",
         "clock",
+        "tray",
         "backlight"
     ],
 
@@ -52,6 +53,11 @@
 
     "clock": {
         "format": "{:%a %d %b  %H:%M}",
+        "tooltip": true,
+        "on-click": "gnome-calendar"
+    },
+
+    "tray": {
         "tooltip": true
     }
 }
